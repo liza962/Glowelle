@@ -8,7 +8,7 @@ import Offers from "./pages/Offers.jsx";
 export default function App() {
   return (
     <div className="d-flex flex-column min-vh-100">
-      <Navbar bg="light" expand="lg" className="mb-3">
+      <Navbar bg="light" expand="lg" className="border-bottom mb-0 shadow-sm">
         <Container>
           <Navbar.Brand as={Link} to="/">
             Glowelle
