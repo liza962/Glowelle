@@ -6,7 +6,7 @@ import Home from "./pages/Home.jsx";
 
 export default function App() {
   return (
-    <>
+    <div className="d-flex flex-column min-vh-100">
       <Navbar bg="light" expand="lg" className="mb-3">
         <Container>
           <Navbar.Brand as={Link} to="/">
@@ -28,13 +28,20 @@ export default function App() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <Container>
+      <Container className="flex-grow-1 pb-4">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
         </Routes>
       </Container>
-    </>
+      <footer className="border-top bg-light py-3 mt-auto">
+        <Container>
+          <p className="text-center text-muted small mb-0">
+            © 2026 Glowelle. All rights reserved.
+          </p>
+        </Container>
+      </footer>
+    </div>
   );
 }

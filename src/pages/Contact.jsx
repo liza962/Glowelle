@@ -1,3 +1,9 @@
+import ContactLocation from "../components/ContactLocation.jsx";
+
 export default function Contact() {
-  return <p>Contact us page</p>;
+  return (
+    <>
+      <ContactLocation />
+    </>
+  );
 }
