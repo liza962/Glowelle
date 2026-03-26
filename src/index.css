@@ -1,8 +1,1 @@
-body {
-  margin: 0;
-  font-family: system-ui, sans-serif;
-}
-
-nav {
-  padding: 1rem;
-}
+/* App-specific tweaks; Bootstrap Reboot handles base typography */
