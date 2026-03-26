@@ -162,3 +162,20 @@ footer.border-top.bg-light {
   background: var(--bs-primary);
   flex-shrink: 0;
 }
+
+/* About page */
+.page-about-quote {
+  background: linear-gradient(
+    90deg,
+    var(--bs-primary-bg-subtle) 0%,
+    transparent 85%
+  );
+  border-radius: 0 0.75rem 0.75rem 0;
+}
+
+.page-about-pillar-num {
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  color: var(--bs-primary);
+}

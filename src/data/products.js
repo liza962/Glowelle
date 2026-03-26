@@ -1,4 +1,4 @@
-/** Demo skincare catalog for the homepage */
+/** Skincare catalog for the homepage */
 export const PRODUCTS = [
   {
     id: 1,
