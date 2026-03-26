@@ -28,8 +28,46 @@ app.get("/", (_req, res) => {
     try: {
       health: "/api/health",
       database: "/api/health/db",
+      createBooking: "POST /api/bookings",
+      listBookingsDev: "GET /api/bookings (non-production only)",
+      debugDb:
+        "GET /api/debug/db-target — which MySQL instance Node uses (compare to phpMyAdmin)",
     },
   });
+});
+
+/**
+ * Shows which database server Node actually connected to (vs phpMyAdmin).
+ * If bookings exist here but not in phpMyAdmin, fix MYSQL_PORT in .env to match Docker’s published MariaDB port.
+ */
+app.get("/api/debug/db-target", async (_req, res) => {
+  try {
+    const pool = getPool();
+    const [meta] = await pool.query(
+      `SELECT DATABASE() AS current_database,
+              @@hostname AS mysql_hostname,
+              @@port AS mysql_server_port,
+              VERSION() AS version`
+    );
+    const [cnt] = await pool.query(
+      `SELECT COUNT(*) AS bookings_count FROM bookings`
+    );
+    res.json({
+      ok: true,
+      fromEnv: {
+        MYSQL_HOST: process.env.MYSQL_HOST,
+        MYSQL_PORT: process.env.MYSQL_PORT,
+        MYSQL_DATABASE: process.env.MYSQL_DATABASE,
+        MYSQL_USER: process.env.MYSQL_USER,
+      },
+      mysqlReports: meta[0],
+      bookingsRowCount: Number(cnt[0]?.bookings_count ?? 0),
+      hint:
+        "If bookingsRowCount > 0 but phpMyAdmin shows 0 rows, Node and phpMyAdmin are not the same server. Set MYSQL_PORT in .env to the host port Docker maps for MariaDB (docker-compose: \"3307:3306\" → use 3307).",
+    });
+  } catch (err) {
+    res.status(500).json({ ok: false, error: err.message });
+  }
 });
 
 app.get("/api/health", (_req, res) => {
@@ -63,6 +101,76 @@ app.get("/api/health/db", async (_req, res) => {
     });
   }
 });
+
+/** Save an offer booking (from BookingModal). */
+app.post("/api/bookings", async (req, res) => {
+  const body = req.body ?? {};
+  const packageName =
+    typeof body.packageName === "string" ? body.packageName.trim() : "";
+  const fullName =
+    typeof body.fullName === "string" ? body.fullName.trim() : "";
+  const email = typeof body.email === "string" ? body.email.trim() : "";
+  const phone = typeof body.phone === "string" ? body.phone.trim() : "";
+  const address = typeof body.address === "string" ? body.address.trim() : "";
+
+  if (!packageName || !fullName || !email || !phone || !address) {
+    return res.status(400).json({
+      ok: false,
+      error: "All fields are required.",
+    });
+  }
+
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  if (!emailOk) {
+    return res.status(400).json({ ok: false, error: "Invalid email address." });
+  }
+
+  try {
+    const pool = getPool();
+    const [result] = await pool.execute(
+      `INSERT INTO bookings (package_name, full_name, email, phone, address)
+       VALUES (?, ?, ?, ?, ?)`,
+      [packageName, fullName, email, phone, address]
+    );
+    const id = Number(result.insertId);
+    console.log(
+      `[booking] inserted id=${id} database=${process.env.MYSQL_DATABASE} host=${process.env.MYSQL_HOST}`
+    );
+    res.status(201).json({ ok: true, id });
+  } catch (err) {
+    console.error("Booking insert failed:", err.message);
+    const safeDetail = process.env.NODE_ENV !== "production";
+    res.status(500).json({
+      ok: false,
+      error: "Could not save booking.",
+      ...(safeDetail && { detail: err.message }),
+    });
+  }
+});
+
+/** Dev helper: list recent bookings (same DB as .env). Remove or protect in production. */
+if (process.env.NODE_ENV !== "production") {
+  app.get("/api/bookings", async (_req, res) => {
+    try {
+      const pool = getPool();
+      const [rows] = await pool.query(
+        `SELECT id, package_name, full_name, email, phone, created_at
+         FROM bookings
+         ORDER BY id DESC
+         LIMIT 50`
+      );
+      res.json({
+        ok: true,
+        database: process.env.MYSQL_DATABASE,
+        count: rows.length,
+        rows,
+      });
+    } catch (err) {
+      console.error("List bookings failed:", err.message);
+      res.status(500).json({ ok: false, error: err.message });
+    }
+  });
+}
 
 const server = app.listen(PORT, () => {
   console.log(`Glowelle API  http://localhost:${PORT}`);
