@@ -3,6 +3,7 @@ import { Link, Route, Routes } from "react-router-dom";
 import About from "./pages/About.jsx";
 import Contact from "./pages/Contact.jsx";
 import Home from "./pages/Home.jsx";
+import Offers from "./pages/Offers.jsx";
 
 export default function App() {
   return (
@@ -21,6 +22,9 @@ export default function App() {
               <Nav.Link as={Link} to="/about">
                 About us
               </Nav.Link>
+              <Nav.Link as={Link} to="/offers">
+                Offers
+              </Nav.Link>
               <Nav.Link as={Link} to="/contact">
                 Contact us
               </Nav.Link>
@@ -32,6 +36,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
+          <Route path="/offers" element={<Offers />} />
           <Route path="/contact" element={<Contact />} />
         </Routes>
       </Container>
