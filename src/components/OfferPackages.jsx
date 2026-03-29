@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Button, Card, Col, Row } from "react-bootstrap";
-import { OFFER_PACKAGES } from "../data/offerPackages.js";
 import BookingModal from "./BookingModal.jsx";
 
 export default function OfferPackages() {

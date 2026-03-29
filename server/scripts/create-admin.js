@@ -1,11 +1,3 @@
-/**
- * Creates or updates an admin row in `users` (bcrypt hash, role = admin).
- *
- * Uses ADMIN_EMAIL and ADMIN_PASSWORD from .env, or:
- *   node server/scripts/create-admin.js you@email.com your-password
- *
- * Requires: database and `users` table (run npm run db:init once if needed).
- */
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import mysql from "mysql2/promise";
