@@ -2,6 +2,10 @@
 
 Skincare storefront and admin tools: product catalog, cart, checkout, news, offer bookings, and contact page content. The UI is a **React (Vite)** SPA; the backend is a **Node.js (Express)** API backed by **MySQL** (or MariaDB-compatible).
 
+---
+Check DOCS folder for Documentation Word and PDF
+---
+
 Requirements
 
 - **Node.js** 18+ (with npm)
