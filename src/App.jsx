@@ -1,5 +1,12 @@
 import { Container, Navbar, Nav } from "react-bootstrap";
-import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
+import {
+  Link,
+  Navigate,
+  NavLink,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 import { useEffect, useState } from "react";
 import AdminHeader from "./components/AdminHeader.jsx";
 import About from "./pages/About.jsx";
@@ -59,10 +66,10 @@ function NavAuth() {
   if (!user) {
     return (
       <>
-        <Nav.Link as={Link} to="/login">
+        <Nav.Link as={NavLink} to="/login">
           Sign in
         </Nav.Link>
-        <Nav.Link as={Link} to="/register">
+        <Nav.Link as={NavLink} to="/register">
           Register
         </Nav.Link>
       </>
@@ -72,7 +79,7 @@ function NavAuth() {
   if (user.role === "admin") {
     return (
       <>
-        <Nav.Link as={Link} to="/admin/products">
+        <Nav.Link as={NavLink} to="/admin">
           Admin panel
         </Nav.Link>
         <span className="navbar-text small text-muted me-2 d-none d-md-inline">
@@ -92,7 +99,7 @@ function NavAuth() {
 
   return (
     <>
-      <Nav.Link as={Link} to="/cart">
+      <Nav.Link as={NavLink} to="/cart">
         Cart{cartCount > 0 ? ` (${cartCount})` : ""}
       </Nav.Link>
       <span className="navbar-text small text-muted me-2 d-none d-md-inline">
@@ -127,20 +134,20 @@ export default function App() {
             <Navbar.Toggle aria-controls="main-nav" />
             <Navbar.Collapse id="main-nav">
               <Nav className="me-auto">
-                <Nav.Link as={Link} to="/">
+                <Nav.Link as={NavLink} to="/" end>
                   Home
                 </Nav.Link>
-                <Nav.Link as={Link} to="/about">
+                <Nav.Link as={NavLink} to="/about">
                   About us
                 </Nav.Link>
-                <Nav.Link as={Link} to="/offers">
+                <Nav.Link as={NavLink} to="/offers">
                   Offers
                 </Nav.Link>
-                <Nav.Link as={Link} to="/contact">
-                  Contact us
-                </Nav.Link>
-                <Nav.Link as={Link} to="/news">
+                <Nav.Link as={NavLink} to="/news">
                   News
+                </Nav.Link>
+                <Nav.Link as={NavLink} to="/contact">
+                  Contact us
                 </Nav.Link>
               </Nav>
               <Nav className="ms-auto align-items-lg-center">

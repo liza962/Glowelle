@@ -1,4 +1,18 @@
 /** Skincare catalog for the homepage */
+export function productImageUrl(slug) {
+  return `https://cdn.media.amplience.net/i/deciem/${slug}?fmt=auto&$poi$&sm=aspect&w=500&aspect=4:3`;
+}
+
+const AMPLIENCE_WORKING_SLUGS = [
+  "Shop-by-step-img1",
+  "Shop-by-step-img2",
+  "Shop-by-step-img3",
+];
+
+export function productImageUrlForCatalogId(id) {
+  return productImageUrl(AMPLIENCE_WORKING_SLUGS[(id - 1) % AMPLIENCE_WORKING_SLUGS.length]);
+}
+
 export const PRODUCTS = [
   {
     id: 1,
@@ -6,8 +20,7 @@ export const PRODUCTS = [
     category: "Cleansers",
     description: "Soft foam that removes makeup without stripping moisture.",
     price: 22,
-    image:
-      "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=400&h=280&fit=crop",
+    image: productImageUrlForCatalogId(1),
   },
   {
     id: 2,
@@ -15,8 +28,7 @@ export const PRODUCTS = [
     category: "Cleansers",
     description: "No-rinse cleanse for reactive skin; fragrance-free.",
     price: 18,
-    image:
-      "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400&h=280&fit=crop",
+    image: productImageUrlForCatalogId(2),
   },
   {
     id: 3,
@@ -24,8 +36,7 @@ export const PRODUCTS = [
     category: "Cleansers",
     description: "Light gel for combination skin; refines without dryness.",
     price: 24,
-    image:
-      "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=400&h=280&fit=crop",
+    image: productImageUrlForCatalogId(3),
   },
   {
     id: 4,
@@ -33,8 +44,7 @@ export const PRODUCTS = [
     category: "Moisturizers",
     description: "Ceramide-rich cream for overnight recovery.",
     price: 38,
-    image:
-      "https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?w=400&h=280&fit=crop",
+    image: productImageUrlForCatalogId(4),
   },
   {
     id: 5,
@@ -42,8 +52,7 @@ export const PRODUCTS = [
     category: "Moisturizers",
     description: "Oil-free gel-cream for oily and humid climates.",
     price: 32,
-    image:
-      "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=400&h=280&fit=crop",
+    image: productImageUrlForCatalogId(5),
   },
   {
     id: 6,
@@ -51,8 +60,7 @@ export const PRODUCTS = [
     category: "Moisturizers",
     description: "Buttery balm for very dry or mature skin.",
     price: 45,
-    image:
-      "https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?w=400&h=280&fit=crop",
+    image: productImageUrlForCatalogId(6),
   },
   {
     id: 7,
@@ -60,8 +68,7 @@ export const PRODUCTS = [
     category: "Serums",
     description: "15% L-ascorbic for radiance and uneven tone.",
     price: 42,
-    image:
-      "https://images.unsplash.com/photo-1617897903246-719242758050?w=400&h=280&fit=crop",
+    image: productImageUrlForCatalogId(7),
   },
   {
     id: 8,
@@ -69,8 +76,7 @@ export const PRODUCTS = [
     category: "Serums",
     description: "Minimizes pores and balances oil over time.",
     price: 28,
-    image:
-      "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=400&h=280&fit=crop",
+    image: productImageUrlForCatalogId(8),
   },
   {
     id: 9,
@@ -78,8 +84,7 @@ export const PRODUCTS = [
     category: "Serums",
     description: "Multi-weight HA for plump, dewy skin.",
     price: 26,
-    image:
-      "https://images.unsplash.com/photo-1571875257727-256c39da42af?w=400&h=280&fit=crop",
+    image: productImageUrlForCatalogId(9),
   },
   {
     id: 10,
@@ -87,8 +92,7 @@ export const PRODUCTS = [
     category: "Serums",
     description: "Encapsulated retinol for fine lines; start slow.",
     price: 48,
-    image:
-      "https://images.unsplash.com/photo-1617897903246-719242758050?w=400&h=280&fit=crop",
+    image: productImageUrlForCatalogId(10),
   },
   {
     id: 11,
@@ -96,8 +100,7 @@ export const PRODUCTS = [
     category: "Sun Care",
     description: "Sheer zinc oxide; no white cast on medium tones.",
     price: 34,
-    image:
-      "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400&h=280&fit=crop",
+    image: productImageUrlForCatalogId(11),
   },
   {
     id: 12,
@@ -105,8 +108,7 @@ export const PRODUCTS = [
     category: "Sun Care",
     description: "Daily UV + subtle pearlescence under makeup.",
     price: 30,
-    image:
-      "https://images.unsplash.com/photo-1522338242992-e1a54906a8da?w=400&h=280&fit=crop",
+    image: productImageUrlForCatalogId(12),
   },
   {
     id: 13,
@@ -114,8 +116,7 @@ export const PRODUCTS = [
     category: "Masks",
     description: "Kaolin + charcoal for weekly deep cleanse.",
     price: 29,
-    image:
-      "https://images.unsplash.com/photo-1596755389378-c31d21fd1273?w=400&h=280&fit=crop",
+    image: productImageUrlForCatalogId(13),
   },
   {
     id: 14,
@@ -123,8 +124,7 @@ export const PRODUCTS = [
     category: "Masks",
     description: "Sleeping mask with panthenol; wake up supple.",
     price: 31,
-    image:
-      "https://images.unsplash.com/photo-1522338242992-e1a54906a8da?w=400&h=280&fit=crop",
+    image: productImageUrlForCatalogId(14),
   },
   {
     id: 15,
@@ -132,8 +132,7 @@ export const PRODUCTS = [
     category: "Masks",
     description: "Soothing essence masks for travel or after peels.",
     price: 20,
-    image:
-      "https://images.unsplash.com/photo-1571875257727-256c39da42af?w=400&h=280&fit=crop",
+    image: productImageUrlForCatalogId(15),
   },
   {
     id: 16,
@@ -141,8 +140,7 @@ export const PRODUCTS = [
     category: "Toners",
     description: "Alcohol-free mist to prep skin after cleansing.",
     price: 19,
-    image:
-      "https://images.unsplash.com/photo-1612817288484-6f916006741a?w=400&h=280&fit=crop",
+    image: productImageUrlForCatalogId(16),
   },
   {
     id: 17,
@@ -150,8 +148,7 @@ export const PRODUCTS = [
     category: "Toners",
     description: "2% salicylic for texture and clogged pores.",
     price: 27,
-    image:
-      "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&h=280&fit=crop",
+    image: productImageUrlForCatalogId(17),
   },
   {
     id: 18,
@@ -159,8 +156,7 @@ export const PRODUCTS = [
     category: "Toners",
     description: "Ferment essence to boost absorption of serums.",
     price: 36,
-    image:
-      "https://images.unsplash.com/photo-1617897903246-719242758050?w=400&h=280&fit=crop",
+    image: productImageUrlForCatalogId(18),
   },
 ];
 

@@ -79,6 +79,31 @@ footer.border-top.bg-light {
   border-color: var(--bs-border-color) !important;
 }
 
+/* Main navbar — current route */
+.navbar .nav-link.active {
+  color: var(--glowelle-pink-deeper) !important;
+  font-weight: 600;
+}
+
+/* Pagination — pink theme (replaces default blue) */
+.pagination {
+  --bs-pagination-color: var(--glowelle-pink-deep);
+  --bs-pagination-bg: var(--bs-body-bg);
+  --bs-pagination-border-color: var(--bs-border-color);
+  --bs-pagination-hover-color: var(--glowelle-pink-deeper);
+  --bs-pagination-hover-bg: var(--bs-primary-bg-subtle);
+  --bs-pagination-hover-border-color: var(--bs-primary-border-subtle);
+  --bs-pagination-focus-color: var(--glowelle-pink-deeper);
+  --bs-pagination-focus-bg: var(--bs-primary-bg-subtle);
+  --bs-pagination-focus-box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.25);
+  --bs-pagination-active-color: #fff;
+  --bs-pagination-active-bg: var(--bs-primary);
+  --bs-pagination-active-border-color: var(--bs-primary);
+  --bs-pagination-disabled-color: var(--bs-secondary-color);
+  --bs-pagination-disabled-bg: var(--bs-light);
+  --bs-pagination-disabled-border-color: var(--bs-border-color);
+}
+
 /* Homepage hero */
 .home-hero {
   position: relative;
