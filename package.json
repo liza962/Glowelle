@@ -7,20 +7,23 @@
     "dev": "vite",
     "server": "node server/index.js",
     "db:init": "node server/scripts/init-db.js",
+    "db:admin": "node server/scripts/create-admin.js",
     "dev:all": "concurrently -k \"npm run dev\" \"npm run server\"",
     "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "bootstrap": "^5.3.8",
-    "react": "^19.0.0",
-    "react-bootstrap": "^2.10.10",
-    "react-dom": "^19.0.0",
-    "react-router-dom": "^6.28.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "mysql2": "^3.12.0"
+    "jsonwebtoken": "^9.0.3",
+    "mysql2": "^3.12.0",
+    "react": "^19.0.0",
+    "react-bootstrap": "^2.10.10",
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^6.28.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.4",

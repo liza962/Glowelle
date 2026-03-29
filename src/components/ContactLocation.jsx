@@ -1,22 +1,51 @@
-import { Card, Col, Ratio, Row } from "react-bootstrap";
-
-const MAP_EMBED_SRC =
-  "https://www.google.com/maps?q=42.6629,21.1655&hl=en&z=16&output=embed";
+import { useCallback, useEffect, useState } from "react";
+import { Card, Col, Ratio, Row, Spinner } from "react-bootstrap";
+import { DEFAULT_CONTACT } from "../data/defaultContact.js";
+import { apiJson } from "../utils/api.js";
 
 export default function ContactLocation() {
+  const [contact, setContact] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    try {
+      const data = await apiJson("/api/contact");
+      setContact(data.contact ?? null);
+    } catch {
+      setContact({ ...DEFAULT_CONTACT });
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    load();
+  }, [load]);
+
+  const c = contact ?? DEFAULT_CONTACT;
+
+  if (loading) {
+    return (
+      <div className="text-center py-5">
+        <Spinner animation="border" role="status" aria-label="Loading contact" />
+      </div>
+    );
+  }
+
   return (
-    <Row className="g-4">
+    <Row className="g-4 my-3">
       <Col md={6}>
         <Card className="h-100">
           <Card.Body>
-            <Card.Title as="h2">Glowelle</Card.Title>
-            <Card.Subtitle className="mb-3 text-muted">Visit us</Card.Subtitle>
+            <Card.Title as="h2">{c.brandTitle}</Card.Title>
+            <Card.Subtitle className="mb-3 text-muted">{c.subtitle}</Card.Subtitle>
             <address className="mb-0">
-              Rruga Mother Teresa
+              {c.addressLine1}
               <br />
-              Prishtina 10000
+              {c.addressLine2}
               <br />
-              Kosovo
+              {c.region}
             </address>
           </Card.Body>
         </Card>
@@ -29,8 +58,8 @@ export default function ContactLocation() {
             </Card.Title>
             <Ratio aspectRatio="16x9" className="mt-2">
               <iframe
-                src={MAP_EMBED_SRC}
-                title="Map showing Glowelle in Prishtina"
+                src={c.mapEmbedUrl}
+                title="Map showing Glowelle location"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 style={{ border: 0 }}

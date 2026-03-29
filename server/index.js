@@ -1,7 +1,13 @@
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
+import { adminUsersRouter } from "./adminUsersRoutes.js";
+import { authRouter } from "./authRoutes.js";
+import { catalogRouter } from "./catalogRoutes.js";
 import { getPool } from "./db.js";
+import { contactRouter } from "./contactRoutes.js";
+import { newsRouter } from "./newsRoutes.js";
+import { shopRouter } from "./shopRoutes.js";
 
 dotenv.config();
 
@@ -17,7 +23,15 @@ app.use(
 );
 app.use(express.json());
 
-/** Root — this server is API-only; the React UI runs on Vite (see `frontend`). */
+app.use("/api", authRouter());
+app.use("/api", shopRouter());
+
+app.use("/api", catalogRouter());
+app.use("/api", newsRouter());
+app.use("/api", contactRouter());
+app.use("/api", adminUsersRouter());
+
+
 app.get("/", (_req, res) => {
   res.json({
     ok: true,
@@ -29,6 +43,19 @@ app.get("/", (_req, res) => {
       health: "/api/health",
       database: "/api/health/db",
       createBooking: "POST /api/bookings",
+      products: "GET/POST /api/products",
+      productById: "GET/PUT/DELETE /api/products/:id",
+      categories: "GET/POST /api/product-categories",
+      categoryById: "PUT/DELETE /api/product-categories/:id",
+      auth: "POST /api/auth/register | /api/auth/login | GET /api/auth/me",
+      cart: "GET/POST /api/cart | PATCH/DELETE /api/cart/:productId",
+      checkout: "POST /api/orders/checkout",
+      adminBookings: "GET /api/admin/bookings | PUT /api/admin/bookings/:id { status }",
+      adminOrders: "GET /api/admin/orders | PUT /api/admin/orders/:id { status }",
+      adminUsers: "GET/POST /api/admin/users | GET/PUT/DELETE /api/admin/users/:id",
+      news: "GET /api/news | GET /api/news/:id",
+      newsAdmin: "POST/PUT/DELETE /api/news (admin)",
+      contact: "GET /api/contact | PUT /api/admin/contact (admin)",
       listBookingsDev: "GET /api/bookings (non-production only)",
       debugDb:
         "GET /api/debug/db-target — which MySQL instance Node uses (compare to phpMyAdmin)",
@@ -36,10 +63,6 @@ app.get("/", (_req, res) => {
   });
 });
 
-/**
- * Shows which database server Node actually connected to (vs phpMyAdmin).
- * If bookings exist here but not in phpMyAdmin, fix MYSQL_PORT in .env to match Docker’s published MariaDB port.
- */
 app.get("/api/debug/db-target", async (_req, res) => {
   try {
     const pool = getPool();
@@ -74,7 +97,6 @@ app.get("/api/health", (_req, res) => {
   res.json({ ok: true, service: "glowelle-api" });
 });
 
-/** Verifies MySQL is reachable (requires valid .env). */
 app.get("/api/health/db", async (_req, res) => {
   try {
     const pool = getPool();
@@ -102,7 +124,6 @@ app.get("/api/health/db", async (_req, res) => {
   }
 });
 
-/** Save an offer booking (from BookingModal). */
 app.post("/api/bookings", async (req, res) => {
   const body = req.body ?? {};
   const packageName =
@@ -148,13 +169,13 @@ app.post("/api/bookings", async (req, res) => {
   }
 });
 
-/** Dev helper: list recent bookings (same DB as .env). Remove or protect in production. */
+
 if (process.env.NODE_ENV !== "production") {
   app.get("/api/bookings", async (_req, res) => {
     try {
       const pool = getPool();
       const [rows] = await pool.query(
-        `SELECT id, package_name, full_name, email, phone, created_at
+        `SELECT id, package_name, full_name, email, phone, status, created_at
          FROM bookings
          ORDER BY id DESC
          LIMIT 50`

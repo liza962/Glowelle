@@ -1,24 +1,72 @@
 import { useEffect, useMemo, useState } from "react";
 import {
+  Alert,
+  Button,
   Card,
   Col,
   Form,
   InputGroup,
   Pagination,
   Row,
+  Spinner,
 } from "react-bootstrap";
-import { PRODUCT_CATEGORIES, PRODUCTS } from "../data/products.js";
+import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext.jsx";
+import { PRODUCTS } from "../data/products.js";
+import { formatPriceEUR } from "../utils/formatPrice.js";
 
 const PER_PAGE = 6;
 
 export default function ProductCatalog() {
+  const { token, user, ready } = useAuth();
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
   const [page, setPage] = useState(1);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState(null);
+  const [cartMsg, setCartMsg] = useState(null);
+  const [addingId, setAddingId] = useState(null);
+
+  const canShop = ready && user?.role === "user";
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      setLoading(true);
+      setFetchError(null);
+      try {
+        const res = await fetch("/api/products");
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          throw new Error(data.error || data.detail || "Could not load products.");
+        }
+        if (!cancelled) {
+          setProducts(Array.isArray(data.products) ? data.products : []);
+        }
+      } catch (e) {
+        if (!cancelled) {
+          setFetchError(e.message);
+          setProducts([]);
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const source = fetchError ? PRODUCTS : products;
+  const productCategories = useMemo(
+    () => [...new Set(source.map((p) => p.category))].sort((a, b) => a.localeCompare(b)),
+    [source]
+  );
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
-    return PRODUCTS.filter((p) => {
+    return source.filter((p) => {
       const categoryOk = category === "all" || p.category === category;
       const searchOk =
         !q ||
@@ -26,7 +74,7 @@ export default function ProductCatalog() {
         p.description.toLowerCase().includes(q);
       return categoryOk && searchOk;
     });
-  }, [search, category]);
+  }, [search, category, source]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
 
@@ -43,6 +91,33 @@ export default function ProductCatalog() {
     return filtered.slice(start, start + PER_PAGE);
   }, [filtered, page]);
 
+  const addToCart = async (productId) => {
+    if (!token) return;
+    setAddingId(productId);
+    setCartMsg(null);
+    try {
+      const res = await fetch("/api/cart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ productId, quantity: 1 }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.error || "Could not add to cart.");
+      }
+      setCartMsg("Added to cart.");
+      window.dispatchEvent(new Event("glowelle-cart"));
+      window.setTimeout(() => setCartMsg(null), 2500);
+    } catch (e) {
+      setCartMsg(e.message);
+    } finally {
+      setAddingId(null);
+    }
+  };
+
   const paginationItems = useMemo(() => {
     const items = [];
     const maxShown = 5;
@@ -58,11 +133,41 @@ export default function ProductCatalog() {
     return items;
   }, [page, totalPages]);
 
+  if (loading) {
+    return (
+      <section aria-labelledby="products-heading">
+        <h2 id="products-heading" className="h4 mb-3">
+          Skincare products
+        </h2>
+        <div className="text-center py-5">
+          <Spinner animation="border" role="status" aria-label="Loading products" />
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section aria-labelledby="products-heading">
       <h2 id="products-heading" className="h4 mb-3">
         Skincare products
       </h2>
+      {cartMsg && (
+        <Alert
+          variant={cartMsg.startsWith("Added") ? "success" : "danger"}
+          className="py-2 mb-3"
+          dismissible
+          onClose={() => setCartMsg(null)}
+        >
+          {cartMsg}
+        </Alert>
+      )}
+      {fetchError && (
+        <Alert variant="warning" className="mb-3">
+          Showing offline catalog (API unavailable: {fetchError}). Start the API (
+          <code>npm run server</code>) and run <code>npm run db:init</code> to use
+          the database.
+        </Alert>
+      )}
       <Row className="g-3 mb-4">
         <Col md={6}>
           <Form.Group controlId="productSearch">
@@ -88,7 +193,7 @@ export default function ProductCatalog() {
               aria-label="Filter by category"
             >
               <option value="all">All categories</option>
-              {PRODUCT_CATEGORIES.map((c) => (
+              {productCategories.map((c) => (
                 <option key={c} value={c}>
                   {c}
                 </option>
@@ -132,9 +237,27 @@ export default function ProductCatalog() {
                     <Card.Text className="small text-muted flex-grow-1">
                       {product.description}
                     </Card.Text>
-                    <p className="fw-semibold mb-0 text-primary">
-                      {product.price}
-                    </p>
+                    <div className="d-flex align-items-center justify-content-between gap-2 mt-2">
+                      <p className="fw-semibold mb-0 text-primary">
+                        {formatPriceEUR(product.price)}
+                      </p>
+                      {canShop ? (
+                        <Button
+                          size="sm"
+                          variant="primary"
+                          disabled={addingId === product.id}
+                          onClick={() => addToCart(product.id)}
+                        >
+                          {addingId === product.id ? "…" : "Buy"}
+                        </Button>
+                      ) : ready && user?.role === "admin" ? (
+                        <span className="small text-muted">Admin</span>
+                      ) : (
+                        <Button size="sm" variant="outline-secondary" as={Link} to="/login">
+                          Sign in to buy
+                        </Button>
+                      )}
+                    </div>
                   </Card.Body>
                 </Card>
               </Col>

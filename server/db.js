@@ -6,7 +6,7 @@ dotenv.config();
 let pool = null;
 
 /**
- * Shared MySQL pool. Configure via .env (see .env.example).
+ * Shared MySQL pool. Configure via .env
  */
 export function getPool() {
   if (!pool) {
@@ -18,7 +18,7 @@ export function getPool() {
 
     if (!MYSQL_USER || !MYSQL_DATABASE) {
       throw new Error(
-        "Missing MYSQL_USER or MYSQL_DATABASE. Copy .env.example to .env and set MySQL variables."
+        "Missing MYSQL_USER or MYSQL_DATABASE. Check .env and set MySQL variables."
       );
     }
 

@@ -1,6 +1,5 @@
-/* Glowelle — soft rose / blush palette (overrides Bootstrap after import) */
+/* Glowelle — soft rose / blush palette */
 :root {
-  /* Clear pink primary (buttons, links, accents) */
   --bs-primary: #e8689a;
   --bs-primary-rgb: 232, 104, 154;
   --glowelle-pink-deep: #d95588;
@@ -35,7 +34,6 @@
   --bs-primary-text-emphasis: #9a3d62;
 }
 
-/* Solid & outline buttons: explicit pink fills and borders */
 .btn-primary {
   --bs-btn-color: #fff;
   --bs-btn-bg: var(--bs-primary);
@@ -81,7 +79,7 @@ footer.border-top.bg-light {
   border-color: var(--bs-border-color) !important;
 }
 
-/* Homepage hero — layered backgrounds so radials stay visible (no clipped pseudos) */
+/* Homepage hero */
 .home-hero {
   position: relative;
   overflow: hidden;
@@ -89,8 +87,6 @@ footer.border-top.bg-light {
   border-radius: 1.25rem;
   padding: 2.5rem 1.75rem;
   border: 1px solid var(--bs-primary-border-subtle);
-  /* Layers: top-right pink, bottom-left lavender, soft top-left tint (no harsh white band), */
-  /* then base wash — avoid pure #fff at top edge (reads as empty white space) */
   background-color: #fdf5f9;
   background-image:
     radial-gradient(
@@ -178,4 +174,533 @@ footer.border-top.bg-light {
   letter-spacing: 0.08em;
   font-weight: 600;
   color: var(--bs-primary);
+}
+
+/* Sign in / Register */
+.auth-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: min(70vh, 42rem);
+  padding: 2rem 0 3rem;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 26rem;
+  padding: 2.25rem 1.75rem 1.75rem;
+  border-radius: 1.25rem;
+  border: 1px solid var(--bs-primary-border-subtle);
+  background-color: #fdf8fc;
+  background-image:
+    radial-gradient(
+      ellipse 90% 55% at 100% 0%,
+      rgba(var(--bs-primary-rgb), 0.18) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 70% 50% at 0% 100%,
+      rgba(var(--bs-secondary-rgb), 0.12) 0%,
+      transparent 60%
+    ),
+    linear-gradient(160deg, #fef8fb 0%, var(--bs-primary-bg-subtle) 42%, #fffafc 100%);
+  background-repeat: no-repeat;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    0 1rem 2.75rem rgba(var(--bs-primary-rgb), 0.11);
+}
+
+@media (min-width: 576px) {
+  .auth-card {
+    padding: 2.5rem 2rem 2rem;
+  }
+}
+
+.auth-card-eyebrow {
+  letter-spacing: 0.14em;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--bs-primary-text-emphasis);
+  text-transform: uppercase;
+}
+
+.auth-card-title {
+  color: var(--bs-heading-color);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.auth-card-subtitle {
+  max-width: 22rem;
+  line-height: 1.5;
+}
+
+.auth-card .form-label {
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: var(--bs-secondary-color);
+  margin-bottom: 0.35rem;
+}
+
+.auth-card .form-control {
+  border-radius: 0.65rem;
+  padding: 0.55rem 0.85rem;
+  border-color: var(--bs-border-color);
+  background-color: rgba(255, 255, 255, 0.85);
+}
+
+.auth-card .form-control:focus {
+  border-color: rgba(var(--bs-primary-rgb), 0.55);
+  box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.15);
+}
+
+.auth-card .btn-primary {
+  border-radius: 0.65rem;
+  padding-block: 0.6rem;
+  font-weight: 600;
+}
+
+.auth-card-footer {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--bs-border-color);
+  text-align: center;
+}
+
+.auth-card-footer a {
+  font-weight: 500;
+}
+
+.auth-card .alert {
+  border-radius: 0.65rem;
+  font-size: 0.9rem;
+}
+
+/* News — journal list & article */
+.news-hero {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: 1.25rem;
+  padding: 2.25rem 1.75rem;
+  border: 1px solid var(--bs-primary-border-subtle);
+  background-image:
+    radial-gradient(
+      ellipse 80% 60% at 100% 0%,
+      rgba(var(--bs-primary-rgb), 0.2) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 65% 50% at 0% 100%,
+      rgba(var(--bs-secondary-rgb), 0.14) 0%,
+      transparent 58%
+    ),
+    linear-gradient(
+      155deg,
+      #fef8fb 0%,
+      var(--bs-primary-bg-subtle) 45%,
+      #fffafc 100%
+    );
+  background-repeat: no-repeat;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    0 0.75rem 2rem rgba(var(--bs-primary-rgb), 0.1);
+}
+
+@media (min-width: 768px) {
+  .news-hero {
+    padding: 2.75rem 2.5rem;
+  }
+}
+
+.news-hero-eyebrow {
+  letter-spacing: 0.14em;
+  font-weight: 600;
+  font-size: 0.7rem;
+  color: var(--bs-primary-text-emphasis);
+}
+
+.news-hero-title {
+  color: var(--bs-heading-color);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+}
+
+.news-hero-lead {
+  max-width: 36rem;
+  line-height: 1.55;
+}
+
+.news-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .news-list {
+    gap: 1.25rem;
+  }
+}
+
+.news-article-card {
+  border-radius: 1rem;
+  border: 1px solid var(--bs-border-color);
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(6px);
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease,
+    border-color 0.22s ease;
+  overflow: hidden;
+}
+
+.news-article-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(var(--bs-primary-rgb), 0.35);
+  box-shadow:
+    0 0.85rem 2rem rgba(var(--bs-primary-rgb), 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.news-article-card:focus-visible {
+  outline: 2px solid var(--bs-primary);
+  outline-offset: 3px;
+}
+
+.news-article-card-inner {
+  position: relative;
+  padding: 1.35rem 1.35rem 1.35rem 1.5rem;
+  border-left: 4px solid var(--bs-primary);
+}
+
+@media (min-width: 576px) {
+  .news-article-card-inner {
+    padding: 1.5rem 1.75rem 1.5rem 1.75rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    align-items: start;
+    column-gap: 1.25rem;
+  }
+
+  .news-article-card-date {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .news-article-card-title {
+    grid-column: 1;
+    grid-row: 2;
+    margin-bottom: 0 !important;
+  }
+
+  .news-article-card-cta {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: center;
+  }
+}
+
+.news-article-card-date {
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--bs-secondary-color);
+  margin-bottom: 0.5rem;
+}
+
+.news-article-card-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--bs-heading-color);
+  margin-bottom: 0;
+  transition: color 0.15s ease;
+}
+
+.news-article-card:hover .news-article-card-title {
+  color: var(--bs-primary);
+}
+
+.news-article-card-cta {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--bs-primary);
+  white-space: nowrap;
+  margin-top: 0.75rem;
+}
+
+@media (min-width: 576px) {
+  .news-article-card-cta {
+    margin-top: 0;
+  }
+}
+
+.news-empty {
+  border-radius: 1rem;
+  border: 1px dashed var(--bs-primary-border-subtle);
+  background: rgba(255, 255, 255, 0.5);
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  color: var(--bs-secondary-color);
+}
+
+.news-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--bs-secondary-color);
+  text-decoration: none;
+  padding: 0.35rem 0.85rem 0.35rem 0.5rem;
+  margin-left: -0.5rem;
+  border-radius: 2rem;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease;
+}
+
+.news-back-link:hover {
+  color: var(--bs-primary);
+  background: rgba(var(--bs-primary-rgb), 0.08);
+}
+
+.news-article-page {
+  max-width: 42rem;
+  margin-inline: auto;
+}
+
+.news-article-page-header {
+  text-align: center;
+  padding-bottom: 2rem;
+  margin-bottom: 0;
+  border-bottom: 1px solid var(--bs-border-color) !important;
+}
+
+@media (min-width: 576px) {
+  .news-article-page-header {
+    text-align: left;
+    padding-bottom: 2.25rem;
+  }
+}
+
+.news-article-page-date {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bs-primary);
+  margin-bottom: 0.85rem;
+}
+
+.news-article-page-title {
+  font-size: clamp(1.65rem, 4vw, 2.15rem);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--bs-heading-color);
+  letter-spacing: -0.02em;
+  margin-bottom: 0;
+}
+
+.news-article-page-body {
+  padding-top: 2rem;
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: var(--bs-secondary-color);
+  white-space: pre-wrap;
+}
+
+.news-loading {
+  min-height: 12rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Admin panel — single header on /admin/* (main site navbar is hidden there) */
+.admin-header {
+  background: linear-gradient(
+    180deg,
+    #2a2226 0%,
+    #352b30 48%,
+    #2f272b 100%
+  );
+  color: rgba(255, 255, 255, 0.92);
+  border-bottom: 3px solid var(--bs-primary);
+  box-shadow: 0 0.35rem 1.25rem rgba(0, 0, 0, 0.12);
+}
+
+.admin-header .container {
+  padding-top: 0.75rem;
+  padding-bottom: 0.85rem;
+}
+
+.admin-header-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem 1rem;
+  padding-bottom: 0.85rem;
+  margin-bottom: 0.65rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.admin-header-top-left {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.45rem 0.65rem;
+  min-width: 0;
+}
+
+.admin-header-brand {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #fff !important;
+  text-decoration: none;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin-right: 0.25rem;
+}
+
+.admin-header-brand:hover {
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+
+.admin-header-top-right {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-width: 0;
+  flex-shrink: 0;
+}
+
+.admin-header-signout {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.admin-header-signout:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.65);
+  color: #fff;
+}
+
+.admin-header-badge {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.65rem;
+  border-radius: 0.35rem;
+  background: rgba(var(--bs-primary-rgb), 0.95);
+  color: #fff;
+  line-height: 1;
+}
+
+.admin-header-site-link {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.88) !important;
+  text-decoration: none;
+  padding: 0.25rem 0.5rem;
+  margin-left: 0.15rem;
+  border-radius: 0.35rem;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.admin-header-site-link:hover {
+  color: #fff !important;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.admin-header-tabs.nav {
+  gap: 0.35rem;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 0.15rem;
+  margin-bottom: -0.15rem;
+  scrollbar-width: thin;
+}
+
+@media (min-width: 992px) {
+  .admin-header-tabs.nav {
+    overflow: visible;
+    justify-content: center !important;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+}
+
+.admin-header-tabs .nav-item {
+  margin: 0;
+}
+
+.admin-header-tab.nav-link {
+  color: rgba(255, 255, 255, 0.75) !important;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.45rem 0.85rem;
+  border-radius: 0.5rem;
+  border: 1px solid transparent;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.admin-header-tab.nav-link:hover {
+  color: #fff !important;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.admin-header-tab.nav-link.active {
+  color: #fff !important;
+  background: rgba(var(--bs-primary-rgb), 0.45) !important;
+  border-color: rgba(255, 255, 255, 0.2);
+  font-weight: 600;
+}
+
+.admin-header-email {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.55);
+  max-width: min(42vw, 14rem);
+}
+
+@media (min-width: 576px) {
+  .admin-header-email {
+    max-width: 16rem;
+  }
+}
+
+/* Admin order / offer status — pill dropdown trigger */
+.admin-status-dropdown-toggle {
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.4em 0.85em !important;
+  border-radius: 50rem !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.admin-status-dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.35) !important;
+}
+
+.admin-status-dropdown-toggle.btn-warning:focus {
+  box-shadow: 0 0 0 0.2rem rgba(217, 164, 6, 0.45) !important;
+}
+
+.admin-status-dropdown-toggle.btn-success:focus {
+  box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.35) !important;
 }
