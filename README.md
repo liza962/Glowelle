@@ -100,3 +100,58 @@ If you add new tables or columns later, run `db:init` again or apply the SQL fro
 - **Contact** — edit the single **Contact us** block (address + map URL).
 
 Admins signing in are sent to the admin area by default; **View site** in the admin header returns to the storefront.
+
+## Machine Learning Module
+
+This repository also contains the Machine Learning module used in the Glowelle platform.
+
+### Dataset
+
+The project uses the Sephora Products Dataset, containing information about beauty and skincare products. The target variable used for classification is:
+
+`primary_category`
+
+### Machine Learning Models
+
+The following models were implemented and evaluated:
+
+* Logistic Regression
+* Decision Tree
+* Random Forest
+* Naive Bayes
+* Neural Network (MLP 1)
+* Neural Network (MLP 2)
+* K-Means Clustering
+
+### Running the Notebook
+
+Install the required libraries:
+
+```bash
+pip install -r requirements.txt
+```
+
+Open the notebook:
+
+```bash
+jupyter notebook sephora_ml.ipynb
+```
+
+Run all cells from top to bottom.
+
+### Results
+
+| Model               | Accuracy |
+| ------------------- | -------- |
+| MLP 1               | 89.70%   |
+| Logistic Regression | 89.35%   |
+| MLP 2               | 89.35%   |
+| Naive Bayes         | 86.76%   |
+| Random Forest       | 86.64%   |
+| Decision Tree       | 81.64%   |
+
+### Authors
+
+* Liza Bajrami
+* Olta Namani
+
